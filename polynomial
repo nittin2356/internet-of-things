@@ -1,0 +1,114 @@
+#include <iostream>
+using namespace std;
+class Node 
+{
+    public:
+    float coefficient;
+    int exponent;
+    Node *next;
+};
+Node *start1,*head1=NULL,*llist1;
+void insert_at_first(float c,int e)
+{
+    
+    if(head1==NULL)
+    {
+        llist1=new Node;
+        llist1->coefficient=c;
+        llist1->exponent=e;
+        llist1->next=head1;
+        head1=llist1;
+        start1=head1;
+    }
+    else 
+    {
+        llist1=new Node;
+        llist1->coefficient=c;
+        llist1->exponent=e;
+        llist1->next=head1->next;
+        head1->next=llist1;
+        head1=head1->next;
+    }
+}
+Node *start2,*head2=NULL,*llist2;
+void insert_at_second(float c,int e)
+{
+    
+    if(head2==NULL)
+    {
+        llist2=new Node;
+        llist2->coefficient=c;
+        llist2->exponent=e;
+        llist2->next=head2;
+        head2=llist2;
+        start2=head2;
+    }
+    else 
+    {
+        llist2=new Node;
+        llist2->coefficient=c;
+        llist2->exponent=e;
+        llist2->next=head1->next;
+        head2->next=llist2;
+        head2=head2->next;
+    }
+}
+void print_polynomial(Node *start)
+{
+    while(start)
+    {
+        cout<<start->coefficient<<"x^"<<start->exponent;
+        if(start->next!=NULL&&start->next->coefficient>0)
+        cout<<"+";
+        start=start->next;
+    }
+}
+Node *head=NULL,*start,*llist;
+void add_polynomial(Node *start1,Node *start2)
+{
+    Node *temp2=start2;
+    
+    start2=temp2;
+    while(start2)
+    {
+    if(start1->exponent==start2->exponent)
+    {
+        llist=new Node;
+        llist->coefficient=start1->coefficient+start2->coefficient;
+        llist->exponent=start1->exponent;
+        llist->next=head;
+        head=llist;
+        start=head;
+    }
+    else 
+    {
+        llist=new Node;
+        llist->coefficient=start1->coefficient+start2->coefficient;
+        llist->next=head->next;
+        head->next=llist;
+        head=head->next;
+    }
+    start2=start2->next;
+    }
+    
+}
+int main()
+{
+    insert_at_first(5,3);
+    insert_at_first(-3,2);
+    insert_at_first(2,1);
+    insert_at_first(1,0);
+    cout<<endl<<"First polynomial representation as linked list"<<endl;
+    print_polynomial(start1);
+    insert_at_second(7,3);
+    insert_at_second(-5,2);
+    insert_at_second(4,1);
+    insert_at_second(2,0);
+    cout<<endl<<"Second polynomial representation as linked list"<<endl;
+    print_polynomial(start2);
+    add_polynomial(start1,start2);
+    cout<<endl<<"Additon of above two polynomial in resulting linked list:"<<endl;
+    print_polynomial(start);
+    return 0;
+}
+
